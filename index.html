@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刮刮樂中獎查詢器
+    </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .input-box {
+            display: flex;
+            justify-content: center;
+            gap: 4px; /* 設定三個框距離為 4px */
+        }
+        input {
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>刮刮樂中獎查詢器</h2>
+        <div class="input-box">
+            <input type="text" id="char1" maxlength="1"> 
+            <input type="text" id="char2" maxlength="1"> 
+            <input type="text" id="char3" maxlength="1"> 
+        </div>
+        <button onclick="checkPrize()">對獎</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const prizeTable = {
+            "HUN": 100, "TWO": 200, "THR": 300, "FOR": 400, "FIV": 500, "SIX": 600,
+            "SEV": 700, "EGT": 800, "NIN": 900, "THO": 1000, "ELE": 1100, "TWL": 1200,
+            "TRN": 1300, "TFH": 1400, "FTN": 1500, "STN": 1600, "SEN": 1700, "EGN": 1800,
+            "TTH": 2000, "EET": 2500, "TRT": 3000, "TTS": 3600, "FCH": 4500, "FVT": 5000,
+            "FTW": 5200, "SXT": 6000, "SVT": 7000, "SCH": 7500, "ETT": 8000, "ETS": 8800,
+            "NIT": 9000, "TEN": 10000, "ELT": 11000, "FRT": 14000, "FCT": 15000,
+            "SIT": 16000, "ETH": 18000, "TTO": 20000, "TTF": 25000, "THY": 30000,
+            "FTY": 50000, "FFT": 55000, "SZJ": 60000, "SVY": 70000, "ETY": 80000,
+            "NTY": 90000, "OHK": 100000, "TWH": 200000, "THD": 300000, "FVH": 500000,
+            "SXH": 600000, "SHD": 700000, "EHD": 800000, "OML": 10000000,
+            "OMF": 15000000, "TML": 2000000, "FML": 5000000, "TWM": 12000000,
+            "TOP": "50000-20000000"
+        };
+
+        function checkPrize() {
+            let char1 = document.getElementById("char1").value.toUpperCase();
+            let char2 = document.getElementById("char2").value.toUpperCase();
+            let char3 = document.getElementById("char3").value.toUpperCase();
+            
+            let inputArray = [char1, char2, char3].sort().join(""); // 將輸入的字母排序
+            
+            let totalPrize = 0;
+            let message = "";
+
+            for (let code in prizeTable) {
+                if (code.split("").sort().join("") === inputArray) { // 檢查是否符合中獎代碼
+                    if (code === "TOP") {
+                        message += `🎉 恭喜中獎！獎金(50000-20000000) NT\n`;
+                    } else {
+                        totalPrize += prizeTable[code];
+                    }
+                }
+            }
+
+            if (totalPrize > 0) {
+                message += `🎉 恭喜中獎！獎金(${totalPrize}) NT`;
+            } else if (message === "") {
+                message = "未中獎";
+            }
+
+            document.getElementById("result").innerText = message;
+        }
+    </script>
+
+</body>
+</html>
